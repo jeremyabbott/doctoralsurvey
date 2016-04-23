@@ -21,6 +21,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 bin/
+build/
+deploy/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -88,7 +90,6 @@ ClientBin/
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
-node_modules/
 
 # SQL Server files
 *.mdf
@@ -110,3 +111,17 @@ docs/content/license.md
 docs/content/release-notes.md
 .fake
 docs/tools/FSharp.Formatting.svclog
+
+.DS_STORE
+
+# aurelia stuff
+
+
+**/node_modules/*
+**/jspm_packages/*
+**/bower_components/*
+
+**/dist/*
+**/build/reports/*
+**/coverage/*
+**/test/e2e/dist/*

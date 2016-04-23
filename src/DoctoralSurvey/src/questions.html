@@ -1,0 +1,13 @@
+﻿<template>
+    <section class="au-animate">
+        <h2>${heading}</h2>
+        <div class="row au-stagger">
+            <ul>
+                <li repeat.for="question of questions">
+                    ${question.id}. ${question.text} - ${question.options.length}
+                    <label repeat.for="option of question.options">${option} <input type="radio" value="${option}" name="${question.id}_answer" /></label>
+                </li>
+            </ul>
+        </div>
+    </section>
+</template>

@@ -61,6 +61,9 @@ let gitName = "doctoralsurvey"
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/jeremyabbott"
 
+let buildDir = "./build/"
+let deployDir = "./deploy/"
+
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
 // --------------------------------------------------------------------------------------
@@ -119,7 +122,7 @@ Target "CopyBinaries" (fun _ ->
 // Clean build results
 
 Target "Clean" (fun _ ->
-    CleanDirs ["bin"; "temp"]
+    CleanDirs ["bin"; "temp"; buildDir; deployDir]
 )
 
 Target "CleanDocs" (fun _ ->
@@ -132,9 +135,9 @@ Target "CleanDocs" (fun _ ->
 Target "Build" (fun _ ->
     !! solutionFile
 #if MONO
-    |> MSBuildReleaseExt "" [ ("DefineConstants","MONO") ] "Rebuild"
+    |> MSBuildReleaseExt buildDir [ ("DefineConstants","MONO") ] "Rebuild"
 #else
-    |> MSBuildRelease "" "Rebuild"
+    |> MSBuildRelease buildDir "Rebuild"
 #endif
     |> ignore
 )
