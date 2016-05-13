@@ -2,7 +2,7 @@
 open System.IO
 open System.Net
 open Suave
-open App
+open DoctoralSurvey.App
 
 [<EntryPoint>]
 let main [| port; staticFilesLocation |] = 

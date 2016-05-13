@@ -1,0 +1,1 @@
+create table Surveys(Id int identity(1,1) primary key NOT NULL, Name varchar(255) NOT NULL);

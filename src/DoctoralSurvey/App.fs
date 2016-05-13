@@ -1,6 +1,7 @@
-﻿module App
+﻿module DoctoralSurvey.App
 
-open Models
+open DoctoralSurvey.Db
+open DoctoralSurvey.Models
 open Suave
 open Suave.Operators
 open Suave.Writers
@@ -8,6 +9,7 @@ open Suave.Successful
 open Suave.Filters
 open Suave.Json
 open Suave.Files
+
 
 let defaultMimeTypesMap = function
   | ".css" -> mkMimeType "text/css" true
@@ -29,7 +31,7 @@ let mimeTypes =
         @@ (function | ".woff2" -> mkMimeType "application/font-woff2" false | _ -> None)
 
 let buildApp staticFileRoot =
-  let questions = getQuestions () |> Models.toJson
+  let questions = getQuestions (getContext()) 1 |> Models.toJson
   choose
     [ GET >=> choose
         [ path "/hello" >=> OK "Hello GET"
