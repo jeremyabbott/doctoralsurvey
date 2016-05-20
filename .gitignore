@@ -112,10 +112,12 @@ docs/content/release-notes.md
 .fake
 docs/tools/FSharp.Formatting.svclog
 
+# Test Results
+TestResults.xml
+
 .DS_STORE
 
 # aurelia stuff
-
 
 **/node_modules/*
 **/jspm_packages/*
@@ -125,3 +127,4 @@ docs/tools/FSharp.Formatting.svclog
 **/build/reports/*
 **/coverage/*
 **/test/e2e/dist/*
+!src/DoctoralSurvey/build

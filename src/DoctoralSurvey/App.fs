@@ -1,5 +1,6 @@
 ﻿module DoctoralSurvey.App
 
+open System.Configuration
 open DoctoralSurvey.Db
 open DoctoralSurvey.Models
 open Suave
@@ -45,3 +46,9 @@ let buildApp staticFileRoot =
       path "/" >=> browseFile staticFileRoot "index.html"
       pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome
        ]
+
+for setting in ConfigurationManager.AppSettings.AllKeys do
+        printfn "setting: %A %A" setting ConfigurationManager.AppSettings.[setting]
+
+for connectionString in ConfigurationManager.ConnectionStrings do
+    printfn "connection string: %s, %s" connectionString.Name connectionString.ConnectionString

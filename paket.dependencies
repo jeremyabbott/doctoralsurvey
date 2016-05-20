@@ -1,4 +1,5 @@
 source https://nuget.org/api/v2
+nuget dbup
 nuget Newtonsoft.Json
 nuget SQLProvider
 nuget Suave

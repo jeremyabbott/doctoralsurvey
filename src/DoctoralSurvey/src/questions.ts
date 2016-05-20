@@ -12,7 +12,7 @@ export class Questions {
         http.configure(config => {
             config
                 .useStandardConfiguration()
-                .withBaseUrl('http://localhost:8083/');
+                .withBaseUrl('/');
         });
     }
 

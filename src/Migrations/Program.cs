@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using DbUp;
+using DbUp.Engine;
 
 namespace Migrations
 {
@@ -10,23 +11,39 @@ namespace Migrations
     {
         static int Main(string[] args)
         {
-            var connectionString =
-        args.FirstOrDefault()
-        ?? ConfigurationManager.ConnectionStrings["dissertation"].ConnectionString;
+            var connectionName = "dissertation";
 
-            var upgrader =
+            var connectionString = Environment.GetEnvironmentVariable($"SQLAZURECONNSTR_{connectionName}");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = args.FirstOrDefault()
+                    ?? ConfigurationManager.ConnectionStrings[connectionName].ConnectionString;
+            }
+
+            Console.WriteLine($"Connection string: {connectionString}");
+
+            DatabaseUpgradeResult result = null;
+            try
+            {
+                var upgrader =
                 DeployChanges.To
                     .SqlDatabase(connectionString)
                     .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                     .LogToConsole()
                     .Build();
 
-            var result = upgrader.PerformUpgrade();
+                result = upgrader.PerformUpgrade();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"Connection string: {connectionString}");
+            }
 
-            if (!result.Successful)
+            if (result == null || !result.Successful)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(result.Error);
+                Console.WriteLine(result == null ? "result is null" : $"{result.Error}");
                 Console.ResetColor();
 #if DEBUG
                 Console.ReadLine();

@@ -4,6 +4,8 @@
 
 #r @"packages/build/FAKE/tools/FakeLib.dll"
 open Fake
+open Fake.Azure
+open Fake.ConfigurationHelper
 open Fake.Git
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
@@ -61,9 +63,6 @@ let gitName = "doctoralsurvey"
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/jeremyabbott"
 
-let buildDir = "./build/"
-let deployDir = "./deploy/"
-
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps
 // --------------------------------------------------------------------------------------
@@ -111,18 +110,27 @@ Target "AssemblyInfo" (fun _ ->
 // Copies binaries from default VS location to expected bin folder
 // But keeps a subdirectory structure for each project in the
 // src folder to support multiple project outputs
+
+let copyBinaries includes =
+    includes
+    |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) </> "bin/Release", "bin" </> (System.IO.Path.GetFileNameWithoutExtension f)))
+    |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
+
 Target "CopyBinaries" (fun _ ->
     !! "src/**/*.??proj"
     -- "src/**/*.shproj"
-    |>  Seq.map (fun f -> ((System.IO.Path.GetDirectoryName f) </> "bin/Release", "bin" </> (System.IO.Path.GetFileNameWithoutExtension f)))
-    |>  Seq.iter (fun (fromDir, toDir) -> CopyDir toDir fromDir (fun _ -> true))
+    |>  copyBinaries)
+
+Target "CopyMigrationBinaries" (fun _ ->
+    !! "src/Migrations/Migrations.csproj"
+    |>  copyBinaries
 )
 
 // --------------------------------------------------------------------------------------
 // Clean build results
 
 Target "Clean" (fun _ ->
-    CleanDirs ["bin"; "temp"; buildDir; deployDir]
+    CleanDirs ["bin"; "temp"]
 )
 
 Target "CleanDocs" (fun _ ->
@@ -132,14 +140,34 @@ Target "CleanDocs" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Build library & test project
 
-Target "Build" (fun _ ->
-    !! solutionFile
+Target "BuildMigrations" (fun _ ->
+    !! "src/Migrations/Migrations.csproj"
 #if MONO
-    |> MSBuildReleaseExt buildDir [ ("DefineConstants","MONO") ] "Rebuild"
+    |> MSBuildReleaseExt "" [ ("DefineConstants","MONO") ] "Rebuild"
 #else
-    |> MSBuildRelease buildDir "Rebuild"
+    |> MSBuildRelease "" "Rebuild"
 #endif
     |> ignore
+
+)
+
+Target "Build" (fun _ ->
+    !! "src/**/*.??proj"
+    -- "src/Migrations/Migrations.csproj"
+#if MONO
+    |> MSBuildReleaseExt "" [ ("DefineConstants","MONO") ] "Rebuild"
+#else
+    |> MSBuildRelease "" "Rebuild"
+#endif
+    |> ignore
+)
+
+Target "Migrate" (fun _ ->
+    let result = ExecProcess 
+                    (fun info ->
+                        info.FileName <- "bin/Migrations/Migrations.exe")
+                    (TimeSpan.FromMinutes 5.0)
+    if result <> 0 then failwithf "MyProc.exe returned with a non-zero exit code"
 )
 
 // --------------------------------------------------------------------------------------
@@ -153,6 +181,35 @@ Target "RunTests" (fun _ ->
             TimeOut = TimeSpan.FromMinutes 20.
             OutputFile = "TestResults.xml" })
 )
+
+// --------------------------------------------------------------------------------------
+// Deploy
+
+Target "UpdateConnectionString" (fun _ ->
+    let configFile = "src/DoctoralSurvey/App.config"
+    
+    let connString = Environment.GetEnvironmentVariable "SQLAZURECONNSTR_dissertation"
+    if connString <> null then
+        updateConnectionString 
+            "dissertation"
+            connString
+            configFile
+        printfn "Updated!"
+)
+
+Target "StageWeb" (fun _ ->
+    // let blacklist =
+    //     [ "typings"
+    //       ".fs"
+    //       ".config"
+    //       ".references"
+    //       "tsconfig.json" ]
+    // let shouldInclude (file:string) =
+    //     blacklist
+    //     |> Seq.forall(not << file.Contains)
+    Kudu.stageFolder (Path.GetFullPath @"bin\DoctoralSurvey") (fun _ -> true))
+
+Target "Deploy" Kudu.kuduSync
 
 #if MONO
 #else
@@ -189,10 +246,8 @@ Target "PublishNuget" (fun _ ->
             WorkingDir = "bin" })
 )
 
-
 // --------------------------------------------------------------------------------------
 // Generate the documentation
-
 
 let fakePath = "packages" </> "build" </> "FAKE" </> "tools" </> "FAKE.exe"
 let fakeStartInfo script workingDirectory args fsiargs environmentVars =
@@ -377,9 +432,19 @@ Target "All" DoNothing
 
 "Clean"
   ==> "AssemblyInfo"
+  ==> "BuildMigrations"
+  ==> "CopyMigrationBinaries"
+  ==> "Migrate"
+  ==> "UpdateConnectionString"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
+  
+"RunTests"
+  ==> "StageWeb"
+  ==> "Deploy"
+
+"RunTests"
   ==> "GenerateReferenceDocs"
   ==> "GenerateDocs"
   ==> "All"

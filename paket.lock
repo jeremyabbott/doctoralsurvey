@@ -1,8 +1,15 @@
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
+    dbup (3.3.4)
     FSharp.Core (4.0.0.1)
     Newtonsoft.Json (8.0.3)
+    Node.js (5.3)
+    NoGit (0.1)
+      Node.js (>= 0.12)
+    Npm (3.5.2)
+      Node.js (>= 0.12.7)
+      NoGit (>= 0.1)
     SQLProvider (1.0.5)
     Suave (1.1.2)
       FSharp.Core (>= 3.1.2.5)
