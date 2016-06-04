@@ -5,8 +5,6 @@ var browserSync = require('browser-sync');
 // outputs changes to files to the console
 function reportChange(event) {
   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-  gulp.src(paths.output + '/*')
-    .pipe(gulp.dest("./bin/debug/dist"));
 }
 
 // this task wil watch for changes

@@ -1,6 +1,6 @@
 {
   "name": "aurelia-skeleton-navigation-typescript",
-  "version": "1.0.0-beta.1.2.2",
+  "version": "1.0.0-beta.1.2.6",
   "description": "A starter kit for building a standard navigation-style app with Aurelia and TypeScript.",
   "keywords": [
     "aurelia",
@@ -74,6 +74,7 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "fetch": "github:github/fetch@^0.11.0",
       "font-awesome": "npm:font-awesome@^4.5.0",
+      "jquery": "npm:jquery@^2.2.3",
       "text": "github:systemjs/plugin-text@^0.0.3"
     },
     "devDependencies": {}
