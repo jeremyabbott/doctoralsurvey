@@ -23,13 +23,12 @@ export class Questions {
                 this.questions = [];
                 questions.forEach(q => {
                    let question = new Question(q.id, q.text);
+                   let options = q.options.map(o => {
+                       return o.value;
+                   });
+                   question.options = options
                    this.questions.push(question);
                 });
             });
-            // .then(questions => {
-            //     this.questions.forEach(q => {
-            //        console.log(q); 
-            //     });
-            // });
     }
 }

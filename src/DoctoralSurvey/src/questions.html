@@ -4,8 +4,13 @@
         <div class="row au-stagger">
             <ul>
                 <li repeat.for="question of questions">
-                    ${question.id}. ${question.text} - ${question.options.length}
-                    <label repeat.for="option of question.options">${option} <input type="radio" value="${option}" name="${question.id}_answer" /></label>
+                    ${question.id}. ${question.text}
+                    <br />
+                    <ul>
+                        <li repeat.for="option of question.options">
+                            <label>${option} <input type="radio" value="${option}" name="${question.id}_answer" /></label>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

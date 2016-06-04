@@ -19,14 +19,30 @@ type Bar =
   bar : string;
   }
 
+type QuestionOption = {
+    Id: int
+    Value: string
+}
+
 type Question = {
     Id: int
     Text: string
+    Options: array<QuestionOption>
 }
 
 let getQuestions context surveyId =
     getQuestions context surveyId
-    |> List.map (fun q -> { Id = q.Id; Text = q.Question})
+    |> List.map (fun q ->
+                    let options = 
+                        match q.QuestionTypeId with
+                        | 2 | 3 ->
+                            getOptionsForQuestion context q.Id
+                            |> List.map (fun o -> { Id = o.Id; Value = o.Value })
+                            |> List.toArray
+                            
+                        | _ -> null
+                    
+                    { Id = q.Id; Text = q.Question; Options = options })
 
 let toJson o =
     let settings = JsonSerializerSettings(ContractResolver = CamelCasePropertyNamesContractResolver())
