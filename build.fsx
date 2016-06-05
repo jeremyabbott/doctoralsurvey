@@ -153,6 +153,7 @@ Target "BuildMigrations" (fun _ ->
 
 Target "Build" (fun _ ->
     !! "src/**/*.??proj"
+    ++ "tests/**/*.??proj"
     -- "src/Migrations/Migrations.csproj"
 #if MONO
     |> MSBuildReleaseExt "" [ ("DefineConstants","MONO") ] "Rebuild"
