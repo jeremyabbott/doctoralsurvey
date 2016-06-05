@@ -3,13 +3,13 @@
         <h2>${heading}</h2>
         <div class="row au-stagger">
             <ul>
-                <li repeat.for="question of questions">
-                    ${question.id}. ${question.text}
+                <li class="question" repeat.for="question of questions">
+                    ${question.number}. ${question.text}
                     <br />
                     <ul>
-                        <li repeat.for="option of question.options">
-                            <input type="radio" value="${option}" name="${question.id}_answer" id="${question.id}_answer" />
-                            <label for="${question.id}_answer">${option}</label>
+                        <li class="option" repeat.for="option of question.options">
+                            <input type="radio" model.bind="option" checked.bind="question.selected" name="${question.id}_answer" id="${option.id}_answer" />
+                            <label for="${option.id}_answer">${option.value}</label>
                         </li>
                     </ul>
                 </li>

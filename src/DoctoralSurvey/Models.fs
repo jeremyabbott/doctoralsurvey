@@ -26,8 +26,9 @@ type QuestionOption = {
 
 type Question = {
     Id: int
-    Text: string
+    Number: int
     Options: array<QuestionOption>
+    Text: string
 }
 
 let getQuestions context surveyId =
@@ -42,7 +43,7 @@ let getQuestions context surveyId =
                             
                         | _ -> null
                     
-                    { Id = q.Id; Text = q.Question; Options = options })
+                    { Id = q.Id; Text = q.Question; Options = options; Number = q.Number })
 
 let toJson o =
     let settings = JsonSerializerSettings(ContractResolver = CamelCasePropertyNamesContractResolver())

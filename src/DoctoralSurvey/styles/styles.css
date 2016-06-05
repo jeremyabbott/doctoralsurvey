@@ -16,6 +16,14 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.question {
+    list-style: none;
+}
+
+.option {
+    list-style: none;
+}
+
 .splash .fa-spinner {
   text-align: center;
   display: inline-block;

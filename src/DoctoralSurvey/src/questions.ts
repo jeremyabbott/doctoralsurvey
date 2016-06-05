@@ -22,9 +22,13 @@ export class Questions {
             .then(questions => {
                 this.questions = [];
                 questions.forEach(q => {
-                   let question = new Question(q.id, q.text);
+                    console.log(q.number);
+                   let question = new Question(q.id, q.text, q.number);
                    let options = q.options.map(o => {
-                       return o.value;
+                       return {
+                           value: o.value,
+                           id: o.id
+                       };
                    });
                    question.options = options
                    this.questions.push(question);
