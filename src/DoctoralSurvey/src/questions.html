@@ -8,7 +8,8 @@
                     <br />
                     <ul>
                         <li repeat.for="option of question.options">
-                            <label>${option} <input type="radio" value="${option}" name="${question.id}_answer" /></label>
+                            <input type="radio" value="${option}" name="${question.id}_answer" id="${question.id}_answer" />
+                            <label for="${question.id}_answer">${option}</label>
                         </li>
                     </ul>
                 </li>
