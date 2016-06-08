@@ -1,19 +1,38 @@
 ﻿<template>
-    <section class="au-animate">
-        <h2>${heading}</h2>
-        <div class="row au-stagger">
-            <ul>
-                <li class="question" repeat.for="question of questions">
-                    ${question.number}. ${question.text}
-                    <br />
-                    <ul>
-                        <li class="option" repeat.for="option of question.options">
-                            <input type="radio" model.bind="option" checked.bind="question.selected" name="${question.id}_answer" id="${option.id}_answer" />
-                            <label for="${option.id}_answer">${option.value}</label>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+    <section class="container au-animate">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>${heading}</h2>
+                <div class="row au-stagger">
+                    <div class="col-md-12">
+                        <form>
+                            <template repeat.for="question of questions">
+                            <div class.bind="!question.isValid ? 'invalid' : ''" class="row well well-lg">
+                                <div class="col-md-4">
+                                    ${question.number}. ${question.text}
+                                </div>
+                                <div class="col-md-8">
+                                    
+                                        <template repeat.for="option of question.options">
+                                        <label class="radio-inline" for="${question.id}_${option.id}answer">
+                                            <input type="radio" model.bind="option" checked.bind="question.selected" 
+                                                name="${question.id}_${option.id}answer" id="${question.id}_${option.id}answer" />
+                                            ${option.value}
+                                        </label>
+                                        </template>
+                                    
+                                </div>
+                            </div>
+                            </template>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn" click.trigger="submit()" disabled.bind="!isValid" class.bind="isValid ? 'btn-success' : 'btn-danger'">Submit</button>
+            </div>
         </div>
     </section>
 </template>

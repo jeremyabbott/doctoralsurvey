@@ -1,23 +1,18 @@
 ﻿module DoctoralSurvey.Models
 
-open System.Runtime.Serialization
+open System
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open DoctoralSurvey.Db
 
-[<DataContract>]
-type Foo =
-  { 
-  [<field: DataMember(Name = "foo")>]
-  foo : string;
-  }
+type ApiStatus =
+| Success
+| FailedValidation of array<string>
 
-[<DataContract>]
-type Bar =
-  { 
-  [<field: DataMember(Name = "bar")>]
-  bar : string;
-  }
+type ApiResult<'a> = {
+    Status : ApiStatus
+    Entity : 'a
+}
 
 type QuestionOption = {
     Id: int
@@ -29,6 +24,34 @@ type Question = {
     Number: int
     Options: array<QuestionOption>
     Text: string
+}
+
+type AnswerRendition = {
+    Id: int
+    Answer: string
+    OptionId: int
+    QuestionId: int
+}
+
+type ResponseRendition = {
+    Id: int
+    Identifier: Guid
+    SurveyId: int
+    Answers: AnswerRendition []
+}
+
+type AnswerResult = {
+    Id: int
+    Answer: string
+    OptionId: int
+    QuestionId: int
+}
+
+type ResponseResult = {
+    Id: int
+    Identifier: Guid
+    SurveyId: int
+    Answers: array<ApiResult<AnswerResult>>
 }
 
 let getQuestions context surveyId =

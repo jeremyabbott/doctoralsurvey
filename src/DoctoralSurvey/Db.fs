@@ -1,5 +1,6 @@
 ﻿module DoctoralSurvey.Db
 
+open System
 open FSharp.Data.Sql
 
 type Sql = SqlDataProvider<ConnectionStringName="dissertation", DatabaseVendor=Common.DatabaseProviderTypes.MSSQLSERVER>
@@ -10,6 +11,8 @@ type Question = DbContext.``dbo.QuestionsEntity``
 type QuestionType = DbContext.``dbo.QuestionTypesEntity``
 type QuestionOption = DbContext.``dbo.OptionsEntity``
 type QuestionOptionMap = DbContext.``dbo.QuestionOptionsEntity``
+type Response = DbContext.``dbo.ResponsesEntity``
+type Answer = DbContext.``dbo.AnswersEntity``
 
 let getContext () = Sql.GetDataContext()
 
@@ -36,3 +39,20 @@ let getOptionsForQuestion (ctx : DbContext) questionId : QuestionOption list =
             where (questionOptions.QuestionId = questionId)
             select options
     } |> Seq.toList
+
+let getAnswerEntity (ctx : DbContext) : Answer =
+    ctx.Dbo.Answers.Create()
+
+let getResponseEntity (ctx : DbContext) : Response =
+    ctx.Dbo.Responses.Create()
+
+let setResponseSurveyId (r : Response) surveyID =
+    r.SurveyId <- surveyID
+    r
+
+let getResponseForSurvey (ctx : DbContext) = getResponseEntity ctx |> setResponseSurveyId
+
+let saveResponse (ctx : DbContext) (responseEntity: Response) : Response =
+    responseEntity.Identifier <- Guid.NewGuid()
+    ctx.SubmitUpdates()
+    responseEntity

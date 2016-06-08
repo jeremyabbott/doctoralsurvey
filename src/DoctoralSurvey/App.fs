@@ -1,16 +1,14 @@
 ﻿module DoctoralSurvey.App
 
-open System.Configuration
 open DoctoralSurvey.Db
 open DoctoralSurvey.Models
+open DoctoralSurvey.Restful
 open Suave
 open Suave.Operators
 open Suave.Writers
 open Suave.Successful
 open Suave.Filters
-open Suave.Json
 open Suave.Files
-
 
 let defaultMimeTypesMap = function
   | ".css" -> mkMimeType "text/css" true
@@ -34,21 +32,9 @@ let mimeTypes =
 let buildApp staticFileRoot =
   let questions = getQuestions (getContext()) 1 |> Models.toJson
   choose
-    [ GET >=> choose
-        [ path "/hello" >=> OK "Hello GET"
-          path "/goodbye" >=> OK "Good bye GET"
-          path "/questions" >=> OK questions ]
-      POST >=> choose
-        [ path "/hello" >=> OK "Hello POST"
-          path "/goodbye" >=> OK "Good bye POST" ] 
-          
-      path "/json" >=> (mapJson (fun (a: Foo) -> { bar = a.foo}))
+    [ GET >=> choose // refactor to web part like response
+        [ path "/questions" >=> OK questions ]
+      responseWebPart
       path "/" >=> browseFile staticFileRoot "index.html"
       pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome
-       ]
-
-for setting in ConfigurationManager.AppSettings.AllKeys do
-        printfn "setting: %A %A" setting ConfigurationManager.AppSettings.[setting]
-
-for connectionString in ConfigurationManager.ConnectionStrings do
-    printfn "connection string: %s, %s" connectionString.Name connectionString.ConnectionString
+    ]
