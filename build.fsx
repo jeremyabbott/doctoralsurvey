@@ -186,15 +186,21 @@ Target "RunTests" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Deploy
 
-Target "UpdateConnectionString" (fun _ ->
-    let configFile = "src/DoctoralSurvey/App.config"
+Target "UpdateConnectionStrings" (fun _ ->
+    let configFiles = 
+        [
+            "src/DoctoralSurvey/App.config";
+            "tests/DoctoralSurvey.Tests/App.config"]
     
     let connString = Environment.GetEnvironmentVariable "SQLAZURECONNSTR_dissertation"
     if connString <> null then
-        updateConnectionString 
-            "dissertation"
-            connString
-            configFile
+        configFiles
+        |> List.iter(fun c ->
+            updateConnectionString 
+                "dissertation"
+                connString
+                c)
+            
         printfn "Updated!"
 )
 
@@ -436,7 +442,7 @@ Target "All" DoNothing
   ==> "BuildMigrations"
   ==> "CopyMigrationBinaries"
   ==> "Migrate"
-  ==> "UpdateConnectionString"
+  ==> "UpdateConnectionStrings"
   ==> "Build"
   ==> "CopyBinaries"
   ==> "RunTests"
