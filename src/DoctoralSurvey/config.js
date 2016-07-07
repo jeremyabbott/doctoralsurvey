@@ -3,7 +3,6 @@ System.config({
   transpiler: "none",
   paths: {
     "*": "dist/*",
-    "styles:*": "styles/*",
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
@@ -15,7 +14,6 @@ System.config({
     }
   },
   map: {
-    "styles": "styles:",
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.0-beta.1.2.1",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.0-beta.1.2.1",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.0.0-beta.1.2.5",
