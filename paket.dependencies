@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 nuget dbup
+nuget FSharp.Core
 nuget Newtonsoft.Json
 nuget SQLProvider
 nuget Suave
@@ -16,6 +17,7 @@ group Build
 group Test
   source https://nuget.org/api/v2
   
+nuget FSharp.Core
   nuget NUnit ~> 2
   nuget NUnit.Runners ~> 2
 nuget sqlprovider
