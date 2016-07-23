@@ -57,15 +57,17 @@
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="src\answer.ts" />
     <Content Include="src\app.html" />
     <Content Include="src\app.ts" />
     <Content Include="src\blur-image.ts" />
     <Content Include="src\main.ts" />
     <Content Include="src\nav-bar.html" />
+    <Content Include="src\question.html" />
     <Content Include="src\questions.html" />
     <Content Include="src\questions.ts" />
-    <None Include="src\answer.ts" />
     <None Include="src\question.ts" />
+    <Content Include="src\option.html" />
     <None Include="src\option.ts" />
     <None Include="src\response.ts" />
     <Content Include="styles\styles.css">

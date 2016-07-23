@@ -1,0 +1,7 @@
+<template>
+    <label class="radio-inline" for="${question.id}_${option.id}answer">
+        <input type="radio" model.bind="option" checked.bind="question.selected" 
+            name="${question.id}_${option.id}answer" id="${question.id}_${option.id}answer" />
+        ${option.value}
+    </label>
+</template>

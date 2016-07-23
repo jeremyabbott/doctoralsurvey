@@ -15,7 +15,7 @@ export class Question {
         this.id = id;
         this.text = text;
         this.number = number;
-        this.options = options.reverse();
+        this.options = options;
         this.selected = null;
     }
 }

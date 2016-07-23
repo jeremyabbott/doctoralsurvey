@@ -7,22 +7,7 @@
                     <div class="col-md-12">
                         <form>
                             <template repeat.for="question of questions">
-                            <div class.bind="!question.isValid ? 'invalid' : ''" class="row well well-lg">
-                                <div class="col-md-4">
-                                    ${question.number}. ${question.text}
-                                </div>
-                                <div class="col-md-8">
-                                    
-                                        <template repeat.for="option of question.options">
-                                        <label class="radio-inline" for="${question.id}_${option.id}answer">
-                                            <input type="radio" model.bind="option" checked.bind="question.selected" 
-                                                name="${question.id}_${option.id}answer" id="${question.id}_${option.id}answer" />
-                                            ${option.value}
-                                        </label>
-                                        </template>
-                                    
-                                </div>
-                            </div>
+                                <compose model.bind="question" view-model="question"></compose>
                             </template>
                         </form>
                     </div>
