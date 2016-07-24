@@ -10,6 +10,8 @@ open Suave.RequestErrors
 open Suave.Filters
 open DoctoralSurvey.Db
 open DoctoralSurvey.Models
+open DoctoralSurvey.LoggingUtilities
+
 
 type RestResource<'a, 'b> = {
   //GetAll : unit -> 'a seq
@@ -20,7 +22,6 @@ type RestResource<'a, 'b> = {
 let JSON (v: ApiResult<'a>) =
     let jsonSerializerSettings = new JsonSerializerSettings()
     jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
-
 
     JsonConvert.SerializeObject(v, jsonSerializerSettings)
     |> match v.Status with
@@ -34,7 +35,9 @@ let fromJson<'a> json =
 let getResourceFromReq<'a> (req : HttpRequest) =
     let getString rawForm =
         System.Text.Encoding.UTF8.GetString(rawForm)
-    req.rawForm |> getString |> fromJson<'a>
+    let rawString = req.rawForm |> getString
+    log "suave" rawString
+    rawString |> fromJson<'a>
 
 let rest (resourceName : string) (resource : RestResource<'a, 'b>) =
     let resourcePath = "/" + resourceName
@@ -107,6 +110,8 @@ let validateResponse (response : Models.ResponseRendition) =
     }
 
 let saveResponse (response : Models.ResponseRendition) =
+    log "suave" "saveResponse"
+    log "suave" (JsonConvert.SerializeObject(response))
     let validatedResponse = validateResponse response
     match validatedResponse.Status with
     | FailedValidation(_) -> validatedResponse
@@ -114,7 +119,7 @@ let saveResponse (response : Models.ResponseRendition) =
         let ctx = getContext()
         let domain = getResponseForSurvey ctx response.SurveyId
         let savedResponse = Db.saveResponse ctx domain
-        let saveAnswerForResponse = saveAnswer domain.Id
+        let saveAnswerForResponse = saveAnswer savedResponse.Id
 
         let answers = 
             response.Answers
@@ -122,6 +127,11 @@ let saveResponse (response : Models.ResponseRendition) =
             |> Seq.map (fun a -> saveAnswerForResponse ctx a)
             |> Seq.map mapAnswer
             |> Seq.toArray
+
+        log "suave" "savedResponse"
+        log "suave" (JsonConvert.SerializeObject(savedResponse))
+        let savedResult = sprintf "savedAnswers %s" <| (JsonConvert.SerializeObject(answers))
+        log "suave" savedResult
 
         validateResponse { response with Answers = answers }        
 

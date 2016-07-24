@@ -1,6 +1,8 @@
 source https://nuget.org/api/v2
 nuget dbup
 nuget FSharp.Core
+nuget Logary.Adapters.Suave
+nuget Logary.WinPerfCounters
 nuget Newtonsoft.Json
 nuget SQLProvider
 nuget Suave

@@ -1,3 +1,5 @@
 Suave
 Newtonsoft.Json
 SQLProvider
+Logary.Adapters.Suave
+Logary.WinPerfCounters
