@@ -30,9 +30,6 @@ if errorlevel 1 (
   exit /b %errorlevel%
 )
 
-echo "Bundle Aurelia"
-call gulp bundle
-
 cd ../..
 echo %cd%
 echo "finish"
@@ -43,3 +40,9 @@ IF NOT EXIST build.fsx (
 )
 
 call build.cmd %*
+
+echo "Bundle"
+
+cd ./src/DoctoralSurvey/
+
+call gulp bundle
