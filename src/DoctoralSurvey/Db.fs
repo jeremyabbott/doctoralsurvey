@@ -56,3 +56,10 @@ let saveResponse (ctx : DbContext) (responseEntity: Response) : Response =
     responseEntity.Identifier <- Guid.NewGuid()
     ctx.SubmitUpdates()
     responseEntity
+
+let getSurveys (ctx : DbContext) : Survey list =
+    query {
+        for survey in ctx.Dbo.Surveys do
+        where (survey.Active)
+        select survey
+    } |> Seq.toList

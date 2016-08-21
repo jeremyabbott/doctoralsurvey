@@ -2,13 +2,14 @@
     <section class="container au-animate">
         <div class="row">
             <div class="col-md-12">
-                <h2>Choose your Survey</h2>
+                <h2 class="text-center">Choose your Survey</h2>
                 <div class="row au-stagger">
                     <div class="col-md-12">
                         <form>
                           <div class="text-center">
-                            <a class="btn btn-default" href="#/questions/1" role="button">I am a Deaf Follower</a>
-                            <a class="btn btn-default" href="#/questions/2" role="button">I am a Hearing Leader</a>
+                              <template repeat.for="survey of surveys">
+                                  <a class="btn btn-default" href="#/questions/${survey.id}" role="button">I am a ${survey.name}</a>                                  
+                              </template>
                            </div>
                         </form>
                     </div>

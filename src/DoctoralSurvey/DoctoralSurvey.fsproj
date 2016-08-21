@@ -61,6 +61,8 @@
     <Content Include="src\app.html" />
     <Content Include="src\app.ts" />
     <Content Include="src\blur-image.ts" />
+    <Content Include="src\chooseSurvey.html" />
+    <Content Include="src\chooseSurvey.ts" />
     <Content Include="src\consentToParticipate.html" />
     <Content Include="src\consentToParticipate.ts" />
     <Content Include="src\introduction.html" />
@@ -74,7 +76,6 @@
     <Content Include="src\option.html" />
     <Content Include="src\option.ts" />
     <Content Include="src\response.ts" />
-    <Content Include="src\survey.html" />
     <Content Include="src\survey.ts" />
     <Content Include="styles\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -8,7 +8,7 @@ export class App {
     config.map([
       { route: ['','introduction'], name: 'introduction', moduleId: 'introduction', nav: false, title: 'Introduction' },
       { route: 'consentToParticipate', name: 'consentToParticipate', moduleId: 'consentToParticipate', nav: false, title: 'Acknowledge' },
-      { route: 'survey', name: 'survey', moduleId: 'survey', nav: false, title: 'Choose Survey' },
+      { route: 'chooseSurvey', name: 'chooseSurvey', moduleId: 'chooseSurvey', nav: false, title: 'Choose Survey' },
       { route: 'questions/:surveyId', name: 'questions', moduleId: 'questions', title: 'Questions' }
     ]);
 

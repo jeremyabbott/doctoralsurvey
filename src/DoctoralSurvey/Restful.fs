@@ -45,6 +45,12 @@ let rest (resourceName : string) (resource : RestResource<'a, 'b>) =
         POST >=> request (getResourceFromReq >> resource.Create >> JSON)
         ]
 
+let mapApiResult status model =
+    {
+        Status = status
+        Entity = model
+    }
+
 let saveAnswer responseId (ctx : DbContext) (answer : Models.AnswerRendition) =
     let domain = getAnswerEntity ctx
     
@@ -108,7 +114,7 @@ let validateResponse (response : Models.ResponseRendition) =
         Status = status
         Entity =
         {
-            Id = response.Id
+            ResponseResult.Id = response.Id
             Identifier = response.Identifier
             SurveyId = response.SurveyId
             Answers = answers
@@ -144,3 +150,19 @@ let saveResponse (response : Models.ResponseRendition) =
 let responseWebPart = rest "response" {
   Create = saveResponse
 }
+
+let getSurveys =
+    warbler (fun _ -> 
+        let ctx = getContext()
+        let mapSurvey (surveyEntity : Db.Survey) =
+            {
+                Id = surveyEntity.Id
+                Name = surveyEntity.Name
+            }
+    
+        GET >=> path "/surveys" >=> OK
+            (getSurveys ctx
+            |> List.map mapSurvey
+            |> mapApiResult ApiStatus.Success
+            |> toJson)
+    )

@@ -35,6 +35,7 @@ let buildApp staticFileRoot =
     [ GET >=> choose // refactor to web part like response
         [ pathScan "/questions/%d" (fun surveyId -> OK (questions surveyId))]
       responseWebPart
+      getSurveys
       path "/" >=> browseFile staticFileRoot "index.html"
       pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome
     ]

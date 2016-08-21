@@ -55,6 +55,11 @@ type ResponseResult = {
     Answers: array<ApiResult<AnswerResult>>
 }
 
+type Survey = {
+    Id: int
+    Name: string
+}
+
 let getQuestions context surveyId =
     getQuestions context surveyId
     |> List.map (fun q ->
