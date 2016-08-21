@@ -47,9 +47,13 @@ let rest (resourceName : string) (resource : RestResource<'a, 'b>) =
 
 let saveAnswer responseId (ctx : DbContext) (answer : Models.AnswerRendition) =
     let domain = getAnswerEntity ctx
-    domain.Answer <- answer.Answer
+    
     domain.ResponseId <- responseId
-    domain.OptionId <- answer.OptionId
+
+    match answer.Answer with
+    | null | "" -> domain.OptionId <- answer.OptionId
+    | _ -> domain.Answer <- answer.Answer
+
     domain.QuestionId <- answer.QuestionId
     ctx.SubmitUpdates()
     domain
@@ -80,6 +84,8 @@ let validateAnswer (answer: Models.AnswerRendition) : ApiResult<AnswerResult> =
         answerResult (ApiStatus.FailedValidation [|"QuestionId is missing"|]) answer
     | {OptionId = 0; Answer = null} ->
         answerResult (ApiStatus.FailedValidation [|"OptionId or Answer is missing"|]) answer
+    | a when a.OptionId > 0 && a.Answer <> null ->
+        answerResult (ApiStatus.FailedValidation [|"Option and free text answer provided."|]) answer
     | _ -> answerResult ApiStatus.Success answer
 
 let validateResponse (response : Models.ResponseRendition) =

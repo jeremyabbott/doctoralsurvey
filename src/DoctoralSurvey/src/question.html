@@ -8,12 +8,13 @@
                 <div class="col-md-6">
                     <div class="">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="//www.youtube.com/embed/acyeKYS3ucA"></iframe>
+                            <!--<iframe class="embed-responsive-item" src="//www.youtube.com/embed/acyeKYS3ucA"></iframe>-->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <ul class="list-unstyled">
+                    <input type="text" class="form-control" placeholder.bind="question.text" value.bind="question.answer" show.one-time="!question.hasOptions" />
+                    <ul class="list-unstyled" show.one-time="question.hasOptions">
                         <li repeat.for="option of question.options">
                             <compose model.bind="option" view-model="option"></compose>
                         </li>

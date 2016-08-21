@@ -22,3 +22,18 @@ type ExampleTests() =
 //        let responseEntity = getResponseForSurvey ctx s.[0]
 //        let r = saveResponse ctx responseEntity
 //        Assert.True(r.Id > 1)
+
+//[<TestFixture>]
+//type AnswerTests() =
+//    [<Test>]
+//    member this.SaveAnswer() =
+//        let ctx = getContext()
+//        let response = getResponseEntity ctx
+//        response.SurveyId <- 1
+//        let r = saveResponse ctx
+//
+//        let answer = getAnswerEntity ctx
+//        answer.Answer <- "test"
+//        answer.QuestionId <- 2        
+////        answer.ResponseId <- response.Id
+//        ctx.SubmitUpdates()

@@ -7,12 +7,12 @@ import {Answer} from 'answer';
 @autoinject
 export class Questions {
     heading = "Questions";
-    questions : Array<Question>;
-
+    questions : Array<Question> = [];
+    
     get isValid() : boolean {
         let result = this.questions
                         .map(q => {return q.isValid})
-                        .reduce((p, c) => { return p && c});
+                        .reduce((p, c) => { return p && c}, true);
         return result;
     }
 
@@ -24,13 +24,13 @@ export class Questions {
         });
     }
 
-    activate() {
-        return this.http.fetch('questions')
+    activate(params) {
+        //alert(params.surveyId);
+        return this.http.fetch('questions/3')
             .then(response => response.json())
-            .then(questions => {
-                this.questions = [];
+            .then((questions: Array<any>) => {
                 questions.forEach(q => {
-                    let question = new Question(q.id, q.text, q.number, q.options);
+                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId);
                     this.questions.push(question);
                 });
             });
@@ -40,7 +40,7 @@ export class Questions {
         var response = new Response(1);
         var answers = this.questions.map(q => {
             var optionId =  q.selected ? q.selected.id : 0;
-            var answer = new Answer(optionId, "", q.id);
+            var answer = new Answer(optionId, q.answer, q.id);
             return answer;
         });
         response.answers = answers;
