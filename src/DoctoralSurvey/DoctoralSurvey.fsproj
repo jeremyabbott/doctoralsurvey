@@ -61,6 +61,8 @@
     <Content Include="src\app.html" />
     <Content Include="src\app.ts" />
     <Content Include="src\blur-image.ts" />
+    <None Include="src\complete.html" />
+    <None Include="src\complete.ts" />
     <Content Include="src\chooseSurvey.html" />
     <Content Include="src\chooseSurvey.ts" />
     <Content Include="src\consentToParticipate.html" />

@@ -54,8 +54,9 @@ export class Questions {
         })
         .then(result => result.json())
         .then(result => {
+            console.log(result);
             if(result.status.case === "Success") {
-                alert(result.status.case);    
+                window.location.assign("#/complete/"); 
             }
         });
     }
