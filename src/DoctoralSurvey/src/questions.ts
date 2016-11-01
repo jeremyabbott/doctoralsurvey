@@ -30,7 +30,7 @@ export class Questions {
             .then(response => response.json())
             .then((questions: Array<any>) => {
                 questions.forEach(q => {
-                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId);
+                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required);
                     this.questions.push(question);
                 });
             });
