@@ -151,6 +151,10 @@ let responseWebPart = rest "response" {
   Create = saveResponse
 }
 
+let questionsWebPart =
+    let questions surveyId = getQuestions (getContext()) surveyId |> Models.toJson
+    pathScan "/questions/%d" (fun surveyId -> OK (questions surveyId))
+
 let getSurveys =
     warbler (fun _ -> 
         let ctx = getContext()

@@ -30,12 +30,12 @@ let mimeTypes =
         @@ (function | ".woff2" -> mkMimeType "application/font-woff2" false | _ -> None)
 
 let buildApp staticFileRoot =
-  let questions surveyId = getQuestions (getContext()) surveyId |> Models.toJson
   choose
-    [ GET >=> choose // refactor to web part like response
-        [ pathScan "/questions/%d" (fun surveyId -> OK (questions surveyId))]
-      responseWebPart
-      getSurveys
-      path "/" >=> browseFile staticFileRoot "index.html"
-      pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome
+    [ GET >=> choose
+        [ questionsWebPart
+          getSurveys
+          path "/" >=> browseFile staticFileRoot "index.html"
+          pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome ]
+      POST >=> choose
+        [ responseWebPart ]
     ]
