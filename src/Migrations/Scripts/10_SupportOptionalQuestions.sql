@@ -1,0 +1,1 @@
+ALTER TABLE dbo.Questions ADD [Required] BIT NOT NULL DEFAULT(1);

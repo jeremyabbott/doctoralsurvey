@@ -1,5 +1,5 @@
 <template>
-    <div class="panel panel-default" class.bind="!question.isValid ? 'panel-danger' : 'panel-success'">
+    <div class="panel panel-default" class.bind="question.classStatus">
         <div class="panel-heading">
             <h4>${question.number}. ${question.text}</h4>
         </div>
