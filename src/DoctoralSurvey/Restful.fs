@@ -90,7 +90,9 @@ let validateAnswer (answer: Models.AnswerRendition) : ApiResult<AnswerResult> =
         answerResult (ApiStatus.FailedValidation [|"QuestionId is missing"|]) answer
     | {OptionId = 0; Answer = null} ->
         answerResult (ApiStatus.FailedValidation [|"OptionId or Answer is missing"|]) answer
-    | a when a.OptionId > 0 && a.Answer <> null ->
+    | {OptionId = 0; Answer = ""} ->
+        answerResult (ApiStatus.FailedValidation [|"OptionId or Answer is missing"|]) answer
+    | a when a.OptionId > 0 && not (System.String.IsNullOrEmpty(a.Answer)) ->
         answerResult (ApiStatus.FailedValidation [|"Option and free text answer provided."|]) answer
     | _ -> answerResult ApiStatus.Success answer
 
@@ -145,7 +147,7 @@ let saveResponse (response : Models.ResponseRendition) =
         let savedResult = sprintf "savedAnswers %s" <| (JsonConvert.SerializeObject(answers))
         log "suave" savedResult
 
-        validateResponse { response with Answers = answers }        
+        validatedResponse
 
 let responseWebPart = rest "response" {
   Create = saveResponse
