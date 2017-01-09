@@ -1,3 +1,6 @@
+
+
+
 module.exports = {
   "list": [
     "index.html",
@@ -13,5 +16,29 @@ module.exports = {
     "jspm_packages/github/github/fetch@0.11.0.js",
     "jspm_packages/github/github/fetch@0.11.0/fetch.js",
     "jspm_packages/github/twbs/bootstrap@3.3.6/fonts/*"
+  ],
+
+  // this section lists any jspm packages that have
+  // unbundled resources that need to be exported.
+  // these files are in versioned folders and thus
+  // must be 'normalized' by jspm to get the proper
+  // path.
+  'normalize': [
+    [
+      // include font-awesome.css and its fonts files
+      'font-awesome', [
+        '/css/font-awesome.min.css',
+        '/fonts/*'
+      ]
+    ], [
+      // include bootstrap's font files
+      'bootstrap', [
+        '/fonts/*'
+      ]
+    ], [
+      'fetch', [
+        '/fetch.js'
+      ]
+    ]
   ]
 };

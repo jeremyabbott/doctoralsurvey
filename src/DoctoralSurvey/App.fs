@@ -1,12 +1,9 @@
 ﻿module DoctoralSurvey.App
 
-open DoctoralSurvey.Db
-open DoctoralSurvey.Models
 open DoctoralSurvey.Restful
 open Suave
 open Suave.Operators
 open Suave.Writers
-open Suave.Successful
 open Suave.Filters
 open Suave.Files
 

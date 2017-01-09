@@ -1,14 +1,14 @@
 ﻿import {autoinject} from 'aurelia-framework';
-import {HttpClient, json} from 'aurelia-fetch-client';
-import {Question} from 'question';
-import {Response} from 'response';
-import {Answer} from 'answer';
+import {HttpClient} from 'aurelia-http-client';
+import {Question} from './question';
+import {Response} from './response';
+import {Answer} from './answer';
 
 @autoinject
 export class Questions {
     heading = "Questions";
     questions : Array<Question> = [];
-    
+    private httpClient: HttpClient; 
     get isValid() : boolean {
         let result = this.questions
                         .map(q => {return q.isValid})
@@ -16,22 +16,22 @@ export class Questions {
         return result;
     }
 
-    constructor(private http: HttpClient) {
-        http.configure(config => {
-            config
-                .useStandardConfiguration()
-                .withBaseUrl('/');
-        });
+    constructor() {
+        this.httpClient = 
+            new HttpClient()
+                .configure(config => {
+                    config.withBaseUrl('/');
+            });
     }
 
     activate(params) {
         //alert(params.surveyId);
-        return this.http.fetch('questions/3')
-            .then(response => response.json())
-            .then((questions: Array<any>) => {
-                questions.forEach(q => {
+        return this.httpClient.get('questions/3')
+            .then(response => {
+                response.content.forEach(q => {
                     let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required);
                     this.questions.push(question);
+                    console.log(this.questions);
                 });
             });
     }
@@ -48,17 +48,24 @@ export class Questions {
     }
 
     save(response: Response) {
-        return this.http.fetch('response', {
-            method: "post",
-            body: json(response)
-        })
-        .then(result => result.json())
-        .then(result => {
-            console.log(result);
-            if(result.status.case === "Success") {
-                window.location.assign("#/complete/"); 
-            }
-        });
+        return this.httpClient.post('response', response)
+            .then(result => {
+                console.log(result);
+                if(result.content.status.case === "Success"){
+                    window.location.assign("#/complete/"); 
+                }
+            })
+        // return this.http.fetch('response', {
+        //     method: "post",
+        //     body: json(response)
+        // })
+        // .then(result => result.json())
+        // .then(result => {
+        //     console.log(result);
+        //     if(result.status.case === "Success") {
+        //         window.location.assign("#/complete/"); 
+        //     }
+        // });
     }
 
     submit() {

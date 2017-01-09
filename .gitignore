@@ -127,4 +127,5 @@ TestResults.xml
 **/build/reports/*
 **/coverage/*
 **/test/e2e/dist/*
+**/typings/*
 !src/DoctoralSurvey/build

@@ -156,6 +156,7 @@ let responseWebPart = rest "response" {
 let questionsWebPart =
     let questions surveyId = getQuestions (getContext()) surveyId |> Models.toJson
     pathScan "/questions/%d" (fun surveyId -> OK (questions surveyId))
+        >=> Writers.setMimeType "application/json; charset=utf-8"
 
 let getSurveys =
     warbler (fun _ -> 
@@ -165,10 +166,10 @@ let getSurveys =
                 Id = surveyEntity.Id
                 Name = surveyEntity.Name
             }
-    
-        GET >=> path "/surveys" >=> OK
+        
+        GET >=> path "/surveys" >=>
             (getSurveys ctx
             |> List.map mapSurvey
             |> mapApiResult ApiStatus.Success
-            |> toJson)
+            |> JSON)
     )
