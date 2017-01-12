@@ -13,8 +13,8 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder.bind="question.text" value.bind="question.answer" show.one-time="!question.hasOptions" />
-                    <ul class="list-unstyled" show.one-time="question.hasOptions">
+                    <input type="text" class="form-control" placeholder.bind="question.text" value.bind="question.answer" if.bind="!question.hasOptions" />
+                    <ul class="list-unstyled" if.bind="question.hasOptions">
                         <li repeat.for="option of question.options">
                             <compose model.bind="option" view-model="option"></compose>
                         </li>

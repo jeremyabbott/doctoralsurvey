@@ -1,7 +1,12 @@
 <template>
-    <label class="radio-inline" for="${question.id}_${option.id}answer">
-        <input type="radio" model.bind="option" checked.bind="question.selected" 
+    <label if.bind="question.typeId === 2" class="radio-inline" for="${question.id}_${option.id}answer">
+        <input type="radio" model.bind="option" checked.bind="question.selectedOption" 
             name="${question.id}_answer" id="${question.id}_${option.id}answer" />
+        ${option.value}
+    </label>
+    <label if.bind="question.typeId === 3" class="checkbox-inline" for="${question.id}_${option.id}answer">
+        <input type="checkbox" model.bind="option"  checked.bind="question.selectedOptions" 
+            id="${question.id}_${option.id}answer" />
         ${option.value}
     </label>
 </template>

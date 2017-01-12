@@ -1,12 +1,26 @@
 ﻿import {Option} from './option';
 
+export interface IProduct {
+   id: number;
+   name: string;
+}
+
 export class Question {
-    answer: string;
+    products: IProduct[] = [
+        { id: 0, name: 'Motherboard' },
+        { id: 1, name: 'CPU' },
+        { id: 2, name: 'Memory' },
+    ];
+
+  selectedProducts: IProduct[] = [];
+
+    answer: string; // for text question type
     id: number;
     number: number;
     options : Array<Option>;
     required: boolean = true;
-    selected: Option;
+    selectedOption: Option;
+    selectedOptions: Option[] = [new Option(1, 2, "test")];
     text: string;
     typeId: number;
 
@@ -16,7 +30,12 @@ export class Question {
     
     get isValid() : boolean {
         if (this.hasOptions) {
-            return this.selected !== null;
+            if (this.typeId === 2) {
+                return this.selectedOption !== null;
+            }
+            else if (this.typeId === 3) {
+                return this.selectedOptions !== null && this.selectedOptions.length > 0;
+            }
         }
         else if (this.required) {
             return this.answer !== null && this.answer !== "";
@@ -46,10 +65,15 @@ export class Question {
         this.id = id;
         this.text = text;
         this.number = number;
-        this.options = options;
-        this.selected = null;
+        this.selectedOption = null;
+        this.selectedOptions = [];
         this.typeId = typeId;
         this.answer = null;
         this.required = required;
+        this.options = options
+    }
+
+    test() {
+        console.log(this.selectedOptions);
     }
 }

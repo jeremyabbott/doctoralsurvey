@@ -81,6 +81,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\10_SupportOptionalQuestions.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\11_HearingLeaderQuestions.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\12_RemoveDuplicateQuestionOptions.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -37,8 +37,11 @@ let getOptionsForQuestion (ctx : DbContext) questionId : QuestionOption list =
         for questionOptions in ctx.Dbo.QuestionOptions do
             join options in ctx.Dbo.Options on (questionOptions.OptionId = options.Id)
             where (questionOptions.QuestionId = questionId)
-            select options
-    } |> Seq.toList
+            select (options, questionOptions.Weight)
+    }
+    |> Seq.toList
+    |> List.sortByDescending(fun t -> snd t)
+    |> List.map(fun t -> fst t)
 
 let getAnswerEntity (ctx : DbContext) : Answer =
     ctx.Dbo.Answers.Create()

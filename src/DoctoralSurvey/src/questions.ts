@@ -8,7 +8,8 @@ import {Answer} from './answer';
 export class Questions {
     heading = "Questions";
     questions : Array<Question> = [];
-    private httpClient: HttpClient; 
+    private httpClient: HttpClient;
+    private surveyId: string;
     get isValid() : boolean {
         let result = this.questions
                         .map(q => {return q.isValid})
@@ -25,25 +26,39 @@ export class Questions {
     }
 
     activate(params) {
-        //alert(params.surveyId);
-        return this.httpClient.get('questions/3')
+        this.surveyId = params.surveyId;
+        let url = 'questions/' + params.surveyId;
+        return this.httpClient.get(url)
             .then(response => {
                 response.content.forEach(q => {
                     let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required);
                     this.questions.push(question);
-                    console.log(this.questions);
                 });
             });
     }
 
     getResponse() {
-        var response = new Response(1);
-        var answers = this.questions.map(q => {
-            var optionId =  q.selected ? q.selected.id : 0;
-            var answer = new Answer(optionId, q.answer, q.id);
-            return answer;
+        let response = new Response(parseInt(this.surveyId));
+        let answers = this.questions.map(q => {
+            if(q.typeId === 1) { // text answer
+                return [new Answer(0, q.answer, q.id)];
+            }
+            else if (q.typeId === 2) { // single option
+                if(q.selectedOption != null) {
+                    let option = q.selectedOption
+                    return [new Answer(option.id, null, q.id)];
+                }
+            }
+            else { // must be type 3 (multipe options)
+                if(q.selectedOptions.length > 0) {
+                    return q.selectedOptions.map(o => {return new Answer(o.id, null, q.id); });
+                }
+            }
         });
-        response.answers = answers;
+        // flatten the array of arrays of answers into an array of answers.
+        // http://stackoverflow.com/questions/10865025/merge-flatten-an-array-of-arrays-in-javascript
+        response.answers = [].concat.apply([], answers);;
+        console.log(response);
         return response;
     }
 
