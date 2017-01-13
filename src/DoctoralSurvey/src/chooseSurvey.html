@@ -2,18 +2,24 @@
     <section class="container au-animate">
         <div class="row">
             <div class="col-md-12">
+                <h1 class="text-center">Deaf identity and its effect on the leader-follower relationship</h1>
+                <template if.bind="hasLocalStorage">
                 <h2 class="text-center">Choose your Survey</h2>
                 <div class="row au-stagger">
                     <div class="col-md-12">
                         <form>
-                          <div class="text-center">
-                              <template repeat.for="survey of surveys">
-                                  <a class="btn btn-default" href="#/questions/${survey.id}" role="button">I am a ${survey.name}</a>                                  
-                              </template>
+                            <div class="text-center">
+                                <div repeat.for="survey of surveys" class="btn-group" role="group" aria-label="Choose your survey">
+                                    <button type="button" class="btn btn-default" click.delegate="chooseSurveyClick(survey)" role="button">${survey.name}</button>                                  
+                                </div>
                            </div>
                         </form>
                     </div>
                 </div>
+                </template>
+                <template if.bind="!hasLocalStorage">
+                    It appears that your browser does not support some of the technology used on this website. Please download Chrome, Internet Explorer 11, Firefox, or Safari and try again.
+                </template>
             </div>
         </div>
     </section>

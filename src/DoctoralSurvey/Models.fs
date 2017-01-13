@@ -60,6 +60,10 @@ type ResponseResult = {
 type Survey = {
     Id: int
     Name: string
+    ConsentLetter: string
+    CoverLetter: string
+    ConsentVideoUrl: string
+    CoverLetterVideoUrl: string
 }
 
 let getQuestions context surveyId =

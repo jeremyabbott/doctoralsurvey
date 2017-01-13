@@ -2,24 +2,17 @@
     <section class="container au-animate">
         <div class="row">
             <div class="col-md-12">
-                <h2>Anonymous Survey Introduction</h2>
-                <p>June 6, 2016</p>
-                <p>Dear Potential Participant,</p>
-                <p>I am a doctoral student in the Education Department at Louisiana State University in Shreveport, Louisiana and I am conducting a study of Deaf identity and its effect on the leader-follower relationship.  The objective of this research project is to attempt to understand if a person’s Deaf identity plays a role in the leader-follower relationship involving people who are Deaf or hard of hearing.</p>
-                <p>The questionnaire is internet based and follows this letter.  The brief questionnaire asks a variety of questions about your attitudes toward your current job, Deaf people, hearing people, sign language, and discrimination.  I am asking you to look over the questionnaire and, if you choose to do so, complete the questionnaire and click on the “submit” button.  This will send the questionnaire results to my secure email.</p>
-                <p>If you choose to participate, you will have the option to include your name.  I do not need to know who you are and no one else will know whether you participated in this study.  Your responses will not be identified with you personally, nor will anyone be able to determine which company you work for.  Nothing you say on the questionnaire will in any way influence your present or future employment with your company.</p> 
-                <p>I hope you will take a few minutes to complete this questionnaire.  Without the help of people like you, research on Deaf identity and the leader-follower relationship could not be conducted.  Your participation is voluntary and there is no penalty if you do not participate.  You may withdraw at any time!</p>
-                <p>If you have any questions or concerns about completing the questionnaire or about participating in this study, you may contact me at (318) 344-5130 or at hyland13@lsus.edu.  If you have any questions about your rights as a research subject, you may contact the Louisiana State University Shreveport Institutional Review Board (IRB) by mail at One University Place, Shreveport, Louisiana, 71115, by phone at (318) 797-5000, or by e-mail at sanjay.menon@lsus.edu. This study was approved by the IRB on June 22, 2016.</p>
-
-                <p>Sincerely,</p>
-
-                <p><strong>David W. Hylan, Jr</strong></p>
-
-                <p>Davis W. Hylan, Jr., MS.<br />
-                Doctoral Student<br />
-                Department of Education and Business<br />
-                Louisiana State University – Shreveport</p>
-
+                <h2 class="text-center">Anonymous Survey Introduction</h2>
+                <div class="row">
+                    <div class.bind="bodySize">
+                        <div innerhtml.bind="coverLetter"></div>
+                    </div>
+                    <div class="col-md-6" if.bind="showVideo">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe if.bind="showVideo" class="embed-responsive-item" src.bind="videoUrl"></iframe>
+                        </div>
+                    </div>
+                </div>
                 <a class="btn btn-default" href="#/consentToParticipate" role="button">Next</a>
             </div>
         </div>

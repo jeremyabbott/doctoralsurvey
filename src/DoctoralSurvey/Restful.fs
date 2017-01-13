@@ -165,6 +165,10 @@ let getSurveys =
             {
                 Id = surveyEntity.Id
                 Name = surveyEntity.Name
+                ConsentLetter = surveyEntity.ConsentLetter
+                ConsentVideoUrl = surveyEntity.ConsentVideoUrl
+                CoverLetter = surveyEntity.CoverLetter
+                CoverLetterVideoUrl = surveyEntity.CoverLetterVideoUrl
             }
         
         GET >=> path "/surveys" >=>

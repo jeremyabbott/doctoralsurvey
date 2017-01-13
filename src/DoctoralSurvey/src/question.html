@@ -6,7 +6,7 @@
         <div class="panel-body">
             <div class="row">   
                 <div if.one-time="question.videoUrl" class="col-md-6">
-                    <div class="">
+                    <div>
                         <div class="embed-responsive embed-responsive-16by9">
                             <iframe if.bind="question.showVideo" class="embed-responsive-item" src.bind="question.videoUrl"></iframe>
                         </div>
@@ -20,7 +20,7 @@
                         </li>
                     </ul>
                     <div>
-                        <button if.one-time="question.videoUrl" click.delegate="question.toggleVideo()" class="btn btn-default">${question.videoButtonText}</button>
+                        <button if.one-time="question.videoUrl" click.delegate="question.toggleVideo()" class="btn btn-default btn-lg">${question.videoButtonText}</button>
                     </div>
                 </div>
             </div>
