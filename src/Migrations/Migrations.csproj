@@ -99,6 +99,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\16_NewQuestionsAndQuestionTypes.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\17_FixesHearing64and66.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
