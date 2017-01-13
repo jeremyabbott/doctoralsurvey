@@ -82,9 +82,6 @@
     <Content Include="styles\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="styles\custom.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="LoggingUtilities.fs" />
     <Compile Include="Db.fs" />

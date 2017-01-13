@@ -1,11 +1,14 @@
 <template>
   <require from="nav-bar.html"></require>
-  <require from="bootstrap/css/bootstrap.css"></require>
-  <require from="/styles/custom.css"></require>
-
   <nav-bar router.bind="router"></nav-bar>
 
-  <div class="page-host">
+  <div class="container">
     <router-view></router-view>
   </div>
+
+  <footer class="footer">
+      <div class="container">
+        <p class="text-muted text-center">Deaf identity and its effect on the leader-follower relationship</p>
+      </div>
+    </footer>
 </template>
