@@ -13,6 +13,8 @@ export class Questions {
     private surveyId: string;
     private eventAggregator: EventAggregator;
 
+    submitting: boolean = false;
+
     get isValid() : boolean {
         let result = this.questions
                         .map(q => {return q.isValid})
@@ -81,7 +83,7 @@ export class Questions {
     save(response: Response) {
         return this.httpClient.post('response', response)
             .then(result => {
-                console.log(result);
+                this.submitting = false;
                 if(result.content.status.case === "Success"){
                     window.location.assign("#/complete/"); 
                 }
@@ -89,6 +91,7 @@ export class Questions {
     }
 
     submit() {
+        this.submitting = true;
         var response = this.getResponse();
         this.save(response);
     }
