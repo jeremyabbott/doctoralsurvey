@@ -25,6 +25,7 @@ body > .container {
 }
 
 .progress-indicator {
+  padding-left: 5px;
   padding-top: 12px;
 }
 
