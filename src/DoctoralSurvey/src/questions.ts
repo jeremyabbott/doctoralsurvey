@@ -1,13 +1,17 @@
-﻿import {HttpClient} from 'aurelia-http-client';
+﻿import {autoinject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {HttpClient} from 'aurelia-http-client';
 import {Question} from './question';
 import {Response} from './response';
 import {Answer} from './answer';
 
+@autoinject
 export class Questions {
     heading = "Questions";
     questions : Array<Question> = [];
     private httpClient: HttpClient;
     private surveyId: string;
+    private eventAggregator: EventAggregator;
 
     get isValid() : boolean {
         let result = this.questions
@@ -20,12 +24,13 @@ export class Questions {
         return this.questions.filter(q => q.required && !q.answered);
     }
 
-    constructor() {
+    constructor(private ea:EventAggregator) {
         this.httpClient = 
             new HttpClient()
                 .configure(config => {
                     config.withBaseUrl('/');
             });
+        this.eventAggregator = ea;
     }
 
     activate(params) {
@@ -33,11 +38,19 @@ export class Questions {
         let url = 'questions/' + params.surveyId;
         return this.httpClient.get(url)
             .then(response => {
-                response.content.forEach(q => {
-                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required, q.videoUrl);
-                    this.questions.push(question);
+                let questions = response.content.map(q => {
+                    return new Question(q.id, q.text, q.number, q.options, q.typeId, q.required, q.videoUrl);
                 });
+                this.questions = questions;
+                this.eventAggregator.publish("startProgress", true);
             });
+    }
+    
+    updateProgress() {
+        let requiredQuestions = this.questions.filter(q => q.required);
+
+        let percentComplete = requiredQuestions.filter(q => q.answered).length / requiredQuestions.length;
+        this.eventAggregator.publish('progress', percentComplete);
     }
 
     getResponse() {

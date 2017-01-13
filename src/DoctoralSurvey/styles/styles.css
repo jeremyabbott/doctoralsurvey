@@ -1,11 +1,10 @@
-body {
-  margin: 0;
-  margin-bottom: 60px;
-}
-
 html {
   position: relative;
   min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
 }
 
 .footer {
@@ -23,6 +22,10 @@ html {
 
 body > .container {
   padding: 60px 15px 15px;
+}
+
+.progress-indicator {
+  padding-top: 12px;
 }
 
 .splash {

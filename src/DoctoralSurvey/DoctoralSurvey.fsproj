@@ -77,6 +77,8 @@
     <Content Include="src\questions.ts" />
     <Content Include="src\option.html" />
     <Content Include="src\option.ts" />
+    <Content Include="src\progress-indicator.html" />
+    <Content Include="src\progress-indicator.ts" />
     <Content Include="src\response.ts" />
     <Content Include="src\survey.ts" />
     <Content Include="styles\styles.css">
