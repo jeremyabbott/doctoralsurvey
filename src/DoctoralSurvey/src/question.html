@@ -5,20 +5,23 @@
         </div>
         <div class="panel-body">
             <div class="row">   
-                <div class="col-md-6">
+                <div if.one-time="question.videoUrl" class="col-md-6">
                     <div class="">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <!--<iframe class="embed-responsive-item" src="//www.youtube.com/embed/acyeKYS3ucA"></iframe>-->
+                            <iframe if.bind="question.showVideo" class="embed-responsive-item" src.bind="question.videoUrl"></iframe>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class.bind="panelBodySize">
                     <input type="text" class="form-control" placeholder.bind="question.text" value.bind="question.answer" if.bind="!question.hasOptions" />
                     <ul class="list-unstyled" if.bind="question.hasOptions">
                         <li repeat.for="option of question.options">
                             <compose model.bind="option" view-model="option"></compose>
                         </li>
                     </ul>
+                    <div>
+                        <button if.one-time="question.videoUrl" click.delegate="question.toggleVideo()" class="btn btn-default">${question.videoButtonText}</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,19 +1,6 @@
 ﻿import {Option} from './option';
 
-export interface IProduct {
-   id: number;
-   name: string;
-}
-
 export class Question {
-    products: IProduct[] = [
-        { id: 0, name: 'Motherboard' },
-        { id: 1, name: 'CPU' },
-        { id: 2, name: 'Memory' },
-    ];
-
-  selectedProducts: IProduct[] = [];
-
     answer: string; // for text question type
     id: number;
     number: number;
@@ -23,6 +10,8 @@ export class Question {
     selectedOptions: Option[] = [new Option(1, 2, "test")];
     text: string;
     typeId: number;
+    videoUrl: string = null;
+    private showVideo: boolean = false;
 
     get hasOptions() : boolean {
         return this.typeId === 2 || this.typeId === 3;
@@ -60,8 +49,17 @@ export class Question {
             return "panel-danger";
         }
     }
+
+    get panelBodySize() : string {
+        return this.videoUrl !== null && this.videoUrl !== "" 
+            ? "col-md-6" : "col-md-12";
+    }
+
+    get videoButtonText() : string {
+        return this.showVideo ? "Hide Video" : "Show Video"
+    }
         
-    constructor(id: number, text: string, number: number, options: Array<Option>, typeId: number, required: boolean) {
+    constructor(id: number, text: string, number: number, options: Array<Option>, typeId: number, required: boolean, videoUrl: string) {
         this.id = id;
         this.text = text;
         this.number = number;
@@ -71,9 +69,10 @@ export class Question {
         this.answer = null;
         this.required = required;
         this.options = options
+        this.videoUrl = videoUrl
     }
 
-    test() {
-        console.log(this.selectedOptions);
+    toggleVideo() {
+        this.showVideo = !this.showVideo;
     }
 }

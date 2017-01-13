@@ -31,7 +31,7 @@ export class Questions {
         return this.httpClient.get(url)
             .then(response => {
                 response.content.forEach(q => {
-                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required);
+                    let question = new Question(q.id, q.text, q.number, q.options, q.typeId, q.required, q.videoUrl);
                     this.questions.push(question);
                 });
             });
@@ -69,23 +69,11 @@ export class Questions {
                 if(result.content.status.case === "Success"){
                     window.location.assign("#/complete/"); 
                 }
-            })
-        // return this.http.fetch('response', {
-        //     method: "post",
-        //     body: json(response)
-        // })
-        // .then(result => result.json())
-        // .then(result => {
-        //     console.log(result);
-        //     if(result.status.case === "Success") {
-        //         window.location.assign("#/complete/"); 
-        //     }
-        // });
+            });
     }
 
     submit() {
         var response = this.getResponse();
         this.save(response);
     }
-
 }

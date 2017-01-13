@@ -26,6 +26,7 @@ type Question = {
     Required: bool
     Text: string
     TypeId: int
+    VideoUrl: string
 }
 
 type AnswerRendition = {
@@ -73,7 +74,13 @@ let getQuestions context surveyId =
                             
                         | _ -> null
                     
-                    { Id = q.Id; Text = q.Question; Options = options; Number = q.Number; TypeId = q.QuestionTypeId; Required = q.Required })
+                    {   Id = q.Id;
+                        Text = q.Question; 
+                        Options = options;
+                        Number = q.Number; 
+                        TypeId = q.QuestionTypeId;
+                        Required = q.Required;
+                        VideoUrl = q.VideoUrl })
 
 let toJson o =
     let settings = JsonSerializerSettings(ContractResolver = CamelCasePropertyNamesContractResolver())
