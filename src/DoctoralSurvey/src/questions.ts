@@ -1,20 +1,23 @@
-﻿import {autoinject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-http-client';
+﻿import {HttpClient} from 'aurelia-http-client';
 import {Question} from './question';
 import {Response} from './response';
 import {Answer} from './answer';
 
-@autoinject
 export class Questions {
     heading = "Questions";
     questions : Array<Question> = [];
     private httpClient: HttpClient;
     private surveyId: string;
+
     get isValid() : boolean {
         let result = this.questions
                         .map(q => {return q.isValid})
                         .reduce((p, c) => { return p && c}, true);
         return result;
+    }
+
+    get unansweredQuestions() : Array<Question> {
+        return this.questions.filter(q => q.required && !q.answered);
     }
 
     constructor() {
@@ -39,8 +42,8 @@ export class Questions {
 
     getResponse() {
         let response = new Response(parseInt(this.surveyId));
-        let answers = this.questions.map(q => {
-            if(q.typeId === 1) { // text answer
+        let answers = this.questions.filter(q => q.answered).map(q => {
+            if(q.typeId === 1 || q.typeId === 4 || q.typeId === 5) { // text answer
                 return [new Answer(0, q.answer, q.id)];
             }
             else if (q.typeId === 2) { // single option

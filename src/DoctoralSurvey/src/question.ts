@@ -18,36 +18,66 @@ export class Question {
     }
     
     get isValid() : boolean {
-        if (this.hasOptions) {
-            if (this.typeId === 2) {
-                return this.selectedOption !== null;
+        if (this.typeId === 1) { // free text answer
+            if (this.required) {
+                return this.answer !== null && this.answer !== "";
             }
-            else if (this.typeId === 3) {
-                return this.selectedOptions !== null && this.selectedOptions.length > 0;
-            }
-        }
-        else if (this.required) {
-            return this.answer !== null && this.answer !== "";
-        }
-        else {
             return true;
         }
+        else if (this.typeId === 2) { // single option answer
+            if (this.required) {
+                return this.selectedOption !== null;
+            }
+            return true;
+        }
+        else if (this.typeId === 3) { // multiple option answer
+            if (this.required) {
+                return this.selectedOptions !== null && this.selectedOptions.length > 0;
+            }
+            return true;
+        }
+        else if (this.typeId === 4) { // numeric
+            let regex = /^[0-9]+$/;
+            let inputIsValid = regex.test(this.answer);
+
+            if (this.required) {
+                return inputIsValid && this.answered;
+            }
+            return inputIsValid || !this.answered;
+        }
+        else if (this.typeId === 5) { // email
+            let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let inputIsValid = regex.test(this.answer);
+
+            if (this.required) {
+                return inputIsValid && this.answered;
+            }
+            return inputIsValid || !this.answered;
+        }
+        return true;
     }
 
     get answered() : boolean {
-        return this.answer !== null && this.answer !== "";
+        switch (this.typeId) {
+            case 1:
+            case 4:
+            case 5:
+                return this.answer !== null && this.answer !== "";
+            case 2:
+                return this.selectedOption !== null;
+            case 3:
+                return this.selectedOptions !== null && this.selectedOptions.length > 0;
+        }
     }
 
     get classStatus() : string {
-        if (this.isValid) {
-            return "panel-success";
-        }
-        else if (!this.required && !this.answered) {
+        if (!this.required && !this.answered) { // this only works for question type 2 right now.
             return "panel-warning";
         }
-        else {
-            return "panel-danger";
+        else if (this.isValid) {
+            return "panel-success";
         }
+        return "panel-danger";
     }
 
     get panelBodySize() : string {

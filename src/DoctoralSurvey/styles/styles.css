@@ -52,6 +52,10 @@ body > .container {
     color:white;
 }
 
+.warning {
+  color: #f97c7c
+}
+
 .list-unstyled {
     font-size: 18px;
 }

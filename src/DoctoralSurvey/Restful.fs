@@ -1,5 +1,7 @@
 ﻿module DoctoralSurvey.Restful
 
+open System.Text.RegularExpressions
+open System.Net.Mail
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open Suave
@@ -84,7 +86,19 @@ let answerResult status (answer: Models.AnswerRendition) : ApiResult<Models.Answ
             }
     }
 
-let validateAnswer (answer: Models.AnswerRendition) : ApiResult<AnswerResult> =
+let validateEmail email =
+    try
+        MailAddress(email) |> ignore
+        true
+    with
+        | :? System.FormatException as ex -> false
+
+let isNumeric input =
+    Regex.IsMatch(input, @"^[0-9]+$")
+
+let validateAnswer (answer: Models.AnswerRendition) (questions : Models.Question list) : ApiResult<AnswerResult> =
+    
+    let question = questions |> List.find(fun (q: Models.Question) -> q.Id = answer.QuestionId)
     match answer with
     | {QuestionId = 0} ->
         answerResult (ApiStatus.FailedValidation [|"QuestionId is missing"|]) answer
@@ -94,12 +108,18 @@ let validateAnswer (answer: Models.AnswerRendition) : ApiResult<AnswerResult> =
         answerResult (ApiStatus.FailedValidation [|"OptionId or Answer is missing"|]) answer
     | a when a.OptionId > 0 && not (System.String.IsNullOrEmpty(a.Answer)) ->
         answerResult (ApiStatus.FailedValidation [|"Option and free text answer provided."|]) answer
+    | a when question.TypeId = 4 && not (isNumeric a.Answer) ->
+        answerResult (ApiStatus.FailedValidation [|"Answer must be a number."|]) answer
+    | a when question.TypeId = 5 && not (validateEmail a.Answer) ->
+        answerResult (ApiStatus.FailedValidation [|"Answer must be a valid email format."|]) answer
     | _ -> answerResult ApiStatus.Success answer
 
 let validateResponse (response : Models.ResponseRendition) =
+
+    let questions = getQuestions (getContext()) response.SurveyId
     let answers =
         response.Answers
-        |> Array.map (fun a -> validateAnswer a)
+        |> Array.map (fun a -> validateAnswer a questions)
 
     let valid =
         answers
