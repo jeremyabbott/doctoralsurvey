@@ -48,13 +48,6 @@ export class Questions {
             });
     }
     
-    updateProgress() {
-        let requiredQuestions = this.questions.filter(q => q.required);
-
-        let percentComplete = requiredQuestions.filter(q => q.answered).length / requiredQuestions.length;
-        this.eventAggregator.publish('progress', percentComplete);
-    }
-
     getResponse() {
         let response = new Response(parseInt(this.surveyId));
         let answers = this.questions.filter(q => q.answered).map(q => {
@@ -80,6 +73,12 @@ export class Questions {
         return response;
     }
 
+    goToQuestion(question: Question) {
+        const questionId = `question${question.number}`;
+        var location = document.getElementById(questionId).offsetTop;
+        window.scrollTo(0, location);
+    }
+
     save(response: Response) {
         return this.httpClient.post('response', response)
             .then(result => {
@@ -95,4 +94,12 @@ export class Questions {
         var response = this.getResponse();
         this.save(response);
     }
+
+    updateProgress() {
+        let requiredQuestions = this.questions.filter(q => q.required);
+
+        let percentComplete = requiredQuestions.filter(q => q.answered).length / requiredQuestions.length;
+        this.eventAggregator.publish('progress', percentComplete);
+    }
+
 }
