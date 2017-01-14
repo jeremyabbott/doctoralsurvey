@@ -6,6 +6,7 @@ System.config({
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
   },
+
   meta: {
     "bootstrap": {
       "deps": [
@@ -13,6 +14,7 @@ System.config({
       ]
     }
   },
+
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@2.0.1",
@@ -33,6 +35,7 @@ System.config({
     "fetch": "github:github/fetch@0.11.1",
     "font-awesome": "npm:font-awesome@4.6.1",
     "jquery": "npm:jquery@2.2.3",
+    "requestanimationframe": "npm:requestanimationframe@0.0.23",
     "text": "github:systemjs/plugin-text@0.0.3",
     "github:twbs/bootstrap@3.3.6": {
       "jquery": "npm:jquery@2.2.3"
