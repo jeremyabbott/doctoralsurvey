@@ -10,7 +10,7 @@ export class App {
       { route: 'introduction', name: 'introduction', moduleId: 'introduction', nav: false, title: 'Introduction' },
       { route: 'consentToParticipate', name: 'consentToParticipate', moduleId: 'consentToParticipate', nav: false, title: 'Acknowledge' },
       { route: 'questions/:surveyId', name: 'questions', moduleId: 'questions', title: 'Questions' },
-      { route: 'complete', name: 'complete', moduleId: 'complete', title: 'Thank You' }
+      { route: 'complete', name: 'complete', moduleId: 'complete', title: 'Thank You', nav: false }
     ]);
 
     this.router = router;

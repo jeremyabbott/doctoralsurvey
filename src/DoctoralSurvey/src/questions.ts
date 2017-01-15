@@ -84,7 +84,7 @@ export class Questions {
             .then(result => {
                 this.submitting = false;
                 if(result.content.status.case === "Success"){
-                    window.location.assign("#/complete/"); 
+                    window.location.assign("#/complete/");
                 }
             });
     }
