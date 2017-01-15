@@ -98,8 +98,16 @@ export class Question {
         this.typeId = typeId;
         this.answer = null;
         this.required = required;
-        this.options = options
+        // this.options = options
         this.videoUrl = videoUrl
+
+        if (options != null && options.length > 0) {
+            for (var o = 0; o < options.length; o++) {
+                options[o].value = String.fromCharCode(65 + o) + ". " + options[o].value;
+            }
+        }
+
+        this.options = options;
     }
 
     toggleVideo() {
