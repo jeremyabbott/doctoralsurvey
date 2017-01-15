@@ -23,7 +23,7 @@ export class Questions {
     }
 
     get unansweredQuestions() : Array<Question> {
-        return this.questions.filter(q => q.required && !q.answered);
+        return this.questions.filter(q => q.required && (!q.answered || !q.isValid));
     }
 
     constructor(private ea:EventAggregator) {

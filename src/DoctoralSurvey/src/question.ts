@@ -98,7 +98,6 @@ export class Question {
         this.typeId = typeId;
         this.answer = null;
         this.required = required;
-        // this.options = options
         this.videoUrl = videoUrl
 
         if (options != null && options.length > 0) {
