@@ -29,10 +29,7 @@ let mimeTypes =
 let buildApp staticFileRoot =
   choose
     [ GET >=> choose
-        [ questionsWebPart
-          getSurveys
-          path "/" >=> browseFile staticFileRoot "index.html"
+        [ 
+          path "/" >=> browseFile staticFileRoot "SurveyClosed.html"
           pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome ]
-      POST >=> choose
-        [ responseWebPart ]
     ]

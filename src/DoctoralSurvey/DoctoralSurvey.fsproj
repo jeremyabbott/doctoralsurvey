@@ -57,6 +57,9 @@
     <Content Include="index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SurveyClosed.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\answer.ts" />
     <Content Include="src\app.html" />
     <Content Include="src\app.ts" />
