@@ -1,6 +1,6 @@
---ALTER TABLE dbo.QuestionOptions ADD SpssCode INT NULL;
+ALTER TABLE dbo.QuestionOptions ADD SpssCode INT NULL;
 
---GO
+GO
 
 DECLARE @hearingSurveyID INT, @deafSurveyID INT;
 
