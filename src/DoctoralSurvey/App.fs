@@ -30,6 +30,9 @@ let buildApp staticFileRoot =
   choose
     [ GET >=> choose
         [ 
-          path "/" >=> browseFile staticFileRoot "SurveyClosed.html"
+          questionsWebPart
+          getSurveys
+          path "/" >=> browseFile staticFileRoot "index.html"
+//          path "/" >=> browseFile staticFileRoot "SurveyClosed.html"
           pathRegex "(.*)\.(css|png|gif|js|woff2|ttf|woff|ico|html)" >=> Files.browseHome ]
     ]
